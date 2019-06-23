@@ -36,9 +36,8 @@ namespace WebApp
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            var connection = "Data source=oyster.db";
             services.AddDbContext<OysterContext>
-                (options => options.UseSqlServer(connection));
+                (options => options.UseSqlServer(Configuration.GetConnectionString("OysterDatabase")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

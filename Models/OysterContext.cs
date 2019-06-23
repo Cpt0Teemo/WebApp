@@ -17,5 +17,11 @@ namespace WebApp.Models
         public DbSet<SubOrder> SubOrders { get; set; }
 
         public DbSet<OysterTypePrice> OysterTypePrices { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<OysterTypePrice>()
+                .HasKey(x => x.oysterType);
+        }
     }
 }
