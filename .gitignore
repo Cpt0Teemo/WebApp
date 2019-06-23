@@ -1,1 +1,5 @@
 Debug/
+bin/Debug/netcoreapp2.2/WebApp.dll
+bin/Debug/netcoreapp2.2/WebApp.pdb
+obj/Debug/netcoreapp2.2/WebApp.dll
+obj/Debug/netcoreapp2.2/WebApp.pdb
