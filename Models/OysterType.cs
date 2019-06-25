@@ -5,12 +5,22 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public enum OysterType
+
+    public static class OysterType
     {
-        Arcachon_3,
-        Arcachon_4,
-        Arguin_2,
-        Arguin_3,
-        Arguin_4
+        public enum OysterTypes
+        {
+            Arcachon_3,
+            Arcachon_4,
+            Arguin_2,
+            Arguin_3,
+            Arguin_4
+        }
+
+
+        public static string GetOysterTypeString(OysterTypes type)
+        {
+            return type.ToString().Replace('_', ' ');
+        }
     }
 }

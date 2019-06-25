@@ -15,7 +15,7 @@ namespace WebApp.Models
 
         public int quantity { get; private set; }
 
-        public OysterType oysterType { get; private set; }
+        public OysterType.OysterTypes oysterType { get; private set; }
 
     }
 }

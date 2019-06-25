@@ -13,6 +13,9 @@ namespace WebApp.Models
         [Required(AllowEmptyStrings = false)]
         public string name { get; set; }
 
+        [Required(AllowEmptyStrings = false)]
+        public string email { get; set; }
+
         public List<SubOrder> subOrders { get; set; }
 
         public DateTime createdOn { get; set; }

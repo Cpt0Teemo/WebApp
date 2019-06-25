@@ -7,7 +7,7 @@ namespace WebApp.Models
 {
     public class OysterTypePrice
     {
-        public OysterType oysterType { get; set; }
+        public OysterType.OysterTypes oysterType { get; set; }
 
         public decimal price { get; set; }
     }
