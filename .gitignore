@@ -3,3 +3,10 @@ bin/Debug/netcoreapp2.2/WebApp.dll
 bin/Debug/netcoreapp2.2/WebApp.pdb
 obj/Debug/netcoreapp2.2/WebApp.dll
 obj/Debug/netcoreapp2.2/WebApp.pdb
+.vs/WebApp/v16/.suo
+.vs/WebApp/v16/Server/sqlite3/storage.ide
+.vs/WebApp/v16/Server/sqlite3/storage.ide-wal
+obj/project.assets.json
+obj/WebApp.csproj.nuget.cache
+obj/WebApp.csproj.nuget.dgspec.json
+obj/WebApp.csproj.nuget.g.props
