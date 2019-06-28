@@ -10,3 +10,5 @@ obj/project.assets.json
 obj/WebApp.csproj.nuget.cache
 obj/WebApp.csproj.nuget.dgspec.json
 obj/WebApp.csproj.nuget.g.props
+.vs/WebApp/v16/Server/sqlite3/storage.ide
+.vs/WebApp/v16/Server/sqlite3/storage.ide-wal
