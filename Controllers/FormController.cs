@@ -20,10 +20,20 @@ namespace WebApp.Controllers
             return View();
         }
 
-        public IActionResult AddOrder(Order order)
+        [HttpPost]
+        public IActionResult AddOrder([FromBody] Order order)
         {
-            _context.Add<Order>(order);
+            var order2 = Request;
+            createOrder(order);
+            _context.Add(order);
+            _context.SaveChanges();
             return View("Confirmation");
+        }
+
+        private void createOrder(Order order)
+        {
+            order.setNewOrderId();
+            order.setNewCreatedOn();
         }
     }
 }
