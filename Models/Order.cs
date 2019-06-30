@@ -18,7 +18,7 @@ namespace WebApp.Models
 
         public List<SubOrder> subOrders { get; set; }
 
-        public DateTime createdOn { get; set; }
+        public DateTime createdOn { get; private set; }
 
         public DateTime expectedDate { get; set; }
 
@@ -28,5 +28,17 @@ namespace WebApp.Models
 
         [Timestamp]
         public byte[] timestamp { get; set; }
+
+        public void setNewOrderId()
+        {
+            if (orderId == null)
+                orderId = Guid.NewGuid();
+        }
+
+        public void setNewCreatedOn()
+        {
+            if (createdOn == null)
+                createdOn = DateTime.Now;
+        }
     }
 }
