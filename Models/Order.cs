@@ -29,13 +29,19 @@ namespace WebApp.Models
         [Timestamp]
         public byte[] timestamp { get; set; }
 
-        public void setNewOrderId()
+        public void setupOrder()
+        {
+            setNewOrderId();
+            setNewCreatedOn();
+        }
+
+        private void setNewOrderId()
         {
             if (orderId == null)
                 orderId = Guid.NewGuid();
         }
 
-        public void setNewCreatedOn()
+        private void setNewCreatedOn()
         {
             if (createdOn == null)
                 createdOn = DateTime.Now;
