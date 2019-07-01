@@ -89,50 +89,49 @@
             </div>
         </fieldset>
         <div class="form-group row">
-            <label for="expectedDate" class="col-sm-2 col-form-label">Name</label>
+            <label for="expectedDate" class="col-sm-2 col-form-label">expectedDate</label>
             <div class="col-sm-10">
                 <input type="date" class="form-control" id="expectedDate" placeholder="When?">
             </div>
         </div>
         <div class="form-group row">
+            <label for="comment" class="col-sm-2 col-form-label">Comment</label>
+            <textarea id="comment" />
+        </div>
+        @Html.AntiForgeryToken()
+        <div class="form-group row">
             <div class="col-sm-10">
                 <button type="button" onClick="createPostRequest()" class="btn btn-primary">Sign in</button>
             </div>
         </div>
-        @Html.AntiForgeryToken()
 
     </form>
 
 <script>
     function createPostRequest() {
         let order = createOrderObject();
+
         $.ajax({
-            type: "POST",
-            url: "Form/AddOrder",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: order,
+            url: 'Form/AddOrder',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
             headers: {
-                RequestVerificationToken: 
-                $('input:hidden[name="__RequestVerificationToken"]').val()
-            }
-        });
-        }
+                RequestVerificationToken:
+                    $('input:hidden[name="__RequestVerificationToken"]').val()
+            },
+            data: JSON.stringify(order)
+        }).done(function (result) { });
+
+
+    }
 
     function createOrderObject() {
         let order = {
-            order: {
-                orderId: null,
-                name: document.getElementById("name").value,
-                email: document.getElementById("email").value,
-                subOrders: [],
-                createdOn: null,
-                expectedDate: document.getElementById("expectedDate").value,
-                comment: "Testing this",
-                done: "false",
-                timestamp: null
-            }
+                "name": document.getElementById("name").value,
+                "email": document.getElementById("email").value,
+                "expectedDate": document.getElementById("expectedDate").value,
+                "comment": document.getElementById("comment").value
         }
-        return JSON.stringify(order);
+        return order;
     }
 </script>
