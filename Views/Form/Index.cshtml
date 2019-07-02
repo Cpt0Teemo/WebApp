@@ -7,96 +7,47 @@
         <div class="form-group row">
             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
             <div class="col-sm-10">
-                <input type="email" class="form-control" id="email" placeholder="Email">
+                <input type="email" class="form-control" id="email" placeholder="Email" required>
             </div>
         </div>
         <div class="form-group row">
             <label for="inputName" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="name" placeholder="Name">
+                <input type="text" class="form-control" id="name" placeholder="Name" required>
             </div>
         </div>
         <fieldset class="form-group">
             <div class="row">
                 <legend class="col-form-label col-sm-2 pt-0">Oysters</legend>
                 <div class="col-sm-6">
-                    <div class="row">
-                        <div class="form-check col-sm-6">
-                            <input class="form-check-input d-inline-block" type="checkbox" id="@OysterType.OysterTypes.Arcachon_3-type" value="@OysterType.OysterTypes.Arcachon_3">
-                            <label class="form-check-label" for="@OysterType.OysterTypes.Arcachon_3-type">
-                                @OysterType.GetOysterTypeString(OysterType.OysterTypes.Arcachon_3)
-                            </label>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form">
-                                <input type="number" class="form-control d-inline-block" id="@OysterType.OysterTypes.Arcachon_3-quantity" placeholder="Quantity">
+                    @foreach (var oysterType in OysterType.GetOysterTypes())
+                     {
+                        <div class="row">
+                            <div class="form-check col-sm-6">
+                                <input class="form-check-input d-inline-block" type="checkbox" id="@oysterType-type" value="@oysterType">
+                                <label class="form-check-label" for="@oysterType-type">
+                                    @OysterType.GetOysterTypeString(oysterType)
+                                </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form">
+                                    <input type="number" class="form-control d-inline-block" id="@oysterType-quantity" placeholder="Quantity">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-check col-sm-6">
-                            <input class="form-check-input d-inline-block" type="checkbox" id="@OysterType.OysterTypes.Arcachon_4-type" value="@OysterType.OysterTypes.Arcachon_4">
-                            <label class="form-check-label" for="@OysterType.OysterTypes.Arcachon_4-type">
-                                @OysterType.GetOysterTypeString(OysterType.OysterTypes.Arcachon_4)
-                            </label>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form">
-                                <input type="number" class="form-control d-inline-block" id="@OysterType.OysterTypes.Arcachon_3-quantity" placeholder="Quantity">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-check col-sm-6">
-                            <input class="form-check-input d-inline-block" type="checkbox" id="@OysterType.OysterTypes.Arguin_2-type" value="@OysterType.OysterTypes.Arguin_2">
-                            <label class="form-check-label" for="@OysterType.OysterTypes.Arguin_2-type">
-                                @OysterType.GetOysterTypeString(OysterType.OysterTypes.Arguin_2)
-                            </label>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form">
-                                <input type="number" class="form-control d-inline-block" id="@OysterType.OysterTypes.Arcachon_3-quantity" placeholder="Quantity">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-check col-sm-6">
-                            <input class="form-check-input d-inline-block" type="checkbox" id="@OysterType.OysterTypes.Arguin_3-type" value="@OysterType.OysterTypes.Arguin_3">
-                            <label class="form-check-label" for="@OysterType.OysterTypes.Arguin_3-type">
-                                @OysterType.GetOysterTypeString(OysterType.OysterTypes.Arguin_3)
-                            </label>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form">
-                                <input type="number" class="form-control d-inline-block" id="inputName" placeholder="Quantity">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-check col-sm-6">
-                            <input class="form-check-input d-inline-block" type="checkbox" id="@OysterType.OysterTypes.Arguin_4-type" value="@OysterType.OysterTypes.Arguin_4">
-                            <label class="form-check-label" for="@OysterType.OysterTypes.Arguin_4-type">
-                                @OysterType.GetOysterTypeString(OysterType.OysterTypes.Arguin_4)
-                            </label>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form">
-                                <input type="number" class="form-control d-inline-block" id="inputName" placeholder="Quantity">
-                            </div>
-                        </div>
-                    </div>
+                     }
                 </div>
             </div>
         </fieldset>
         <div class="form-group row">
             <label for="expectedDate" class="col-sm-2 col-form-label">expectedDate</label>
             <div class="col-sm-10">
-                <input type="date" class="form-control" id="expectedDate" placeholder="When?">
+                <input type="date" class="form-control" id="expectedDate" placeholder="When?" required>
             </div>
         </div>
         <div class="form-group row">
             <label for="comment" class="col-sm-2 col-form-label">Comment</label>
-            <textarea id="comment" />
+            <textarea  class="col-sm-10" id="comment"></textarea>
         </div>
         @Html.AntiForgeryToken()
         <div class="form-group row">
@@ -107,8 +58,11 @@
 
     </form>
 
-<script>
+<script type="text/javascript">
     function createPostRequest() {
+        if (!checkRequired())
+            return;
+
         let order = createOrderObject();
 
         $.ajax({
@@ -126,12 +80,42 @@
     }
 
     function createOrderObject() {
+        let subOrders = [];
+        @foreach (var oysterType in OysterType.GetOysterTypes())
+         {
+            <text>
+            if (document.getElementById("@oysterType-type").checked)
+            {
+                let subOrder = {
+                    "quantity": $("#@oysterType-quantity").val(),
+                    "oysterType": "@oysterType"
+                };
+                subOrders.push(subOrder);
+            }
+            </text>
+         }
+
         let order = {
-                "name": document.getElementById("name").value,
-                "email": document.getElementById("email").value,
-                "expectedDate": document.getElementById("expectedDate").value,
-                "comment": document.getElementById("comment").value
+                "name": $("#name").val(),
+                "email": $("#email").val(),
+                "expectedDate": $("#expectedDate").val(),
+                "subOrders": subOrders,
+                "comment": $("#comment").val()
         }
         return order;
+        }
+
+    function checkRequired() {
+        let allFilled = true;
+        if (!$("#name").val()) {
+            allFilled = false;
+        }
+        if (!$("#email").val()) {
+            allFilled = false;
+        }
+        if (!$("#expectedDate").val()) {
+            allFilled = false;
+        }
+        return allFilled;
     }
 </script>
