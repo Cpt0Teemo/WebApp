@@ -23,10 +23,25 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult AddOrder([FromBody] Order order)
         {
-            order.setupOrder();
-            _context.Add(order);
-            _context.SaveChanges();
-            return View("Confirmation");
+            var response = new JsonResponse();
+
+            try
+            {
+                order.setupOrder();
+                _context.Add(order);
+                _context.SaveChanges();
+            } catch (Exception e)
+            {
+                response.success = false;
+                response.message = e.Message;
+                return Json(response);
+
+            }
+
+            response.success = true;
+            response.order = order;
+
+            return Json(response);
         }
 
     }
