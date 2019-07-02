@@ -8,14 +8,19 @@ namespace WebApp.Models
 {
     public class SubOrder
     {
-        public Guid subOrderId { get; set; }
+        public Guid subOrderId { get; private set; }
 
         [Required]
-        public Order order { get; }
+        public Order order { get; set; }
 
-        public int quantity { get; private set; }
+        public int quantity { get; set; }
 
-        public OysterType.OysterTypes oysterType { get; private set; }
+        public OysterType.OysterTypes oysterType { get; set; }
 
+        public void setNewSubOrderId()
+        {
+            if (subOrderId == null || subOrderId == Guid.Empty)
+                subOrderId = Guid.NewGuid();
+        }
     }
 }

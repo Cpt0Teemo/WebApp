@@ -22,5 +22,10 @@ namespace WebApp.Models
         {
             return type.ToString().Replace('_', ' ');
         }
+
+        public static List<OysterTypes> GetOysterTypes()
+        {
+            return Enum.GetValues(typeof(OysterTypes)).Cast<OysterTypes>().ToList();
+        }
     }
 }

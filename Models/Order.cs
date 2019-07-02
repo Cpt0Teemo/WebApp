@@ -33,18 +33,31 @@ namespace WebApp.Models
         {
             setNewOrderId();
             setNewCreatedOn();
+            setOrderForSubOrder();
+            setSubOrderId();
+            setOrderForSubOrder();
         }
 
         private void setNewOrderId()
         {
-            if (orderId == null)
+            if (orderId == null || orderId == Guid.Empty)
                 orderId = Guid.NewGuid();
         }
 
         private void setNewCreatedOn()
         {
-            if (createdOn == null)
+            if (createdOn == null || createdOn == DateTime.MinValue)
                 createdOn = DateTime.Now;
+        }
+
+        private void setSubOrderId()
+        {
+            subOrders.ForEach(x => x.setNewSubOrderId());
+        }
+
+        private void setOrderForSubOrder()
+        {
+            subOrders.ForEach(x => x.order = this);
         }
     }
 }
