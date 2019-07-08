@@ -74,7 +74,13 @@
                     $('input:hidden[name="__RequestVerificationToken"]').val()
             },
             data: JSON.stringify(order)
-        }).done(function (result) { });
+        }).done(function (result) {
+            if (result.success) {
+                window.location.href = "Form/" + result.orderId;
+            } else {
+
+            }
+        });
 
 
     }

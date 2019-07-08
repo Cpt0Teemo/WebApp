@@ -34,14 +34,24 @@ namespace WebApp.Controllers
             {
                 response.success = false;
                 response.message = e.Message;
-                return Json(response);
+                return Json(new JsonResponse {
+                    success = false,
+                    message = e.Message
+                });
 
             }
 
-            response.success = true;
-            response.order = order;
+            return Json(new JsonResponse
+            {
+                success = true,
+                orderId = order.orderId
+            });
+        }
 
-            return Json(response);
+        [Route("Form/{id}")]
+        public IActionResult GetOrder(Guid id)
+        {
+            return View("Confirmation");
         }
 
     }

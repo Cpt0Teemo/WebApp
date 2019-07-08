@@ -9,7 +9,7 @@ namespace WebApp.Models
     {
         public bool success { get; set; }
 
-        public Order order { get; set; }
+        public Guid orderId { get; set; }
 
         public string message { get; set; }
     }
