@@ -10,10 +10,12 @@ namespace WebApp.Controllers
     public class FormController : Controller
     {
         private OysterContext _context;
+        private Repository _repository;
 
         public FormController(OysterContext context)
         {
             _context = context;
+            _repository = new Repository(_context);
         }
         public IActionResult Index()
         {
@@ -28,8 +30,7 @@ namespace WebApp.Controllers
             try
             {
                 order.setupOrder();
-                _context.Add(order);
-                _context.SaveChanges();
+                _repository.addOrder(order);
             } catch (Exception e)
             {
                 response.success = false;
