@@ -27,5 +27,12 @@ namespace WebApp.Models
         {
             return Enum.GetValues(typeof(OysterTypes)).Cast<OysterTypes>().ToList();
         }
+        
+        public static List<string> GetOysterTypesAsString()
+        {
+            var oysterTypes = GetOysterTypes();
+            var oysterTypesAsString = oysterTypes.Select(x => GetOysterTypeString(x));
+            return oysterTypesAsString.ToList();
+        }
     }
 }

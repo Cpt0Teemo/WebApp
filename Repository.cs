@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WebApp.Models;
 
 namespace WebApp
@@ -21,12 +22,30 @@ namespace WebApp
             _context.SaveChanges();
         }
 
-        public List<Order> getOrders()
+        public List<Order> getOrders(int take, int page)
         {
-            _context.Orders.Where()
+            return _context.Orders.Skip((page - 1) * take).Take(take).ToList();
         }
 
-        public IQueryable<Order> addFiltersToQuery(IQueryable<Order> query, List<Filter> filters)
+        public OrderTableReponse getOrders(List<Filter> filters, int take, int page)
+        {
+            var query = _context.Orders.Include(x => x.subOrders).AsQueryable();
+            query = addFiltersToQuery(query, filters);
+            
+            var ordersAsync =  query.Skip((page - 1) * take).Take(take).ToListAsync();
+            var countAsync =  query.CountAsync();
+            
+            var orderTable = new OrderTableReponse
+            {
+                orders = ordersAsync.Result,
+                totalCount = countAsync.Result,
+                pages = (int)Math.Ceiling(countAsync.Result / (decimal)take)
+            };
+            
+            return orderTable;
+        }
+
+        private IQueryable<Order> addFiltersToQuery(IQueryable<Order> query, List<Filter> filters)
         {
             foreach (var filter in filters)
             {
@@ -57,6 +76,8 @@ namespace WebApp
                         
                 }
             }
+
+            return query;
         }
     }
 }

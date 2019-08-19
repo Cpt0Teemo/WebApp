@@ -1,26 +1,183 @@
-@model List<Order>
-
+@model OrderTableReponse
+<div>
+    Show:
+    <select id="take">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+    </select>
+    Page:
+    <select id="page">
+        @for (int i = 1; i <= Model.pages; i++)
+        {
+            <option value="@i">@i</option>
+        }
+    </select>
+</div>
 <table class="table table-hover">
-  <thead>
+    <thead>
     <tr>
-      <th scope="col">Done</th>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">ExpectedDate</th>
+        <th scope="col">Done</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">ExpectedDate</th>
     </tr>
-  </thead>
-  <tbody>
+    </thead>
+    <tbody>
   
-  @foreach (var order in Model)
-  {
-    <tr>
-      <th scope="row">@order.done</th>
-      <td>@order.name</td>
-      <td>@order.email</td>
-      <td>@order.expectedDate</td>
-    </tr>
-  }
+    @foreach (var order in Model.orders)
+    {
+        <tr onclick="openOrder('@order.orderId')">
+            <th scope="row">
+                <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </button>
+            </th>
+            <td>@order.name</td>
+            <td>@order.email</td>
+            <td>@order.expectedDate</td>
+        </tr>
+    }
 
-  </tbody>
+    </tbody>
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderModalLabel">Order</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="modal-body">
+            <p id="suborders-modal">
+                test1
+            </p>
+            <p id="comment-modal">
+                test2
+            </p>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+    var data = null;
+    @{
+        Model.orders.ForEach(x => x.subOrders.ForEach(y => y.order = null));
+    }
+    var orders = @Json.Serialize(Model.orders);
+    var oysterTypes = @Json.Serialize(OysterType.GetOysterTypesAsString());
+
+    function nextPage() {
+
+        let order = createOrderObject();
+
+        $.ajax({
+            url: 'Admin',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            headers: {
+                RequestVerificationToken:
+                    $('input:hidden[name="__RequestVerificationToken"]').val()
+            },
+            data: JSON.stringify(order)
+        }).done(function (result) {
+            if (result.success) {
+                window.location.href = "Form/" + result.orderId;
+            } else {
+
+            }
+        });
+
+
+    }
+    
+    function openOrder(id)
+    {
+        let order = orders.find(
+            function(element) {
+                return element["orderId"] == id;
+            });
+        
+        $('#suborders-modal').text( oysterTypes[order["subOrders"][0]["oysterType"]]);
+        $('#comment-modal').text( order["comment"].toString());
+        
+        $('#orderModal').modal('show');
+    }
+    
+    function createPostRequest() {
+        if (!checkRequired())
+            return;
+
+        let order = createOrderObject();
+
+        $.ajax({
+            url: 'Form/AddOrder',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            headers: {
+                RequestVerificationToken:
+                    $('input:hidden[name="__RequestVerificationToken"]').val()
+            },
+            data: JSON.stringify(order)
+        }).done(function (result) {
+            if (result.success) {
+                window.location.href = "Form/" + result.orderId;
+            } else {
+
+            }
+        });
+
+
+    }
+
+    function createOrderObject() {
+        let subOrders = [];
+        @foreach (var oysterType in OysterType.GetOysterTypes())
+         {
+            <text>
+            if (document.getElementById("@oysterType-type").checked)
+            {
+                let subOrder = {
+                    "quantity": $("#@oysterType-quantity").val(),
+                    "oysterType": "@oysterType"
+                };
+                subOrders.push(subOrder);
+            }
+            </text>
+         }
+
+        let order = {
+                "name": $("#name").val(),
+                "email": $("#email").val(),
+                "expectedDate": $("#expectedDate").val(),
+                "subOrders": subOrders,
+                "comment": $("#comment").val()
+        }
+        return order;
+        }
+
+    function checkRequired() {
+        let allFilled = true;
+        if (!$("#name").val()) {
+            allFilled = false;
+        }
+        if (!$("#email").val()) {
+            allFilled = false;
+        }
+        if (!$("#expectedDate").val()) {
+            allFilled = false;
+        }
+        return allFilled;
+    }
+</script>
 
