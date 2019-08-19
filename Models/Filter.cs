@@ -21,7 +21,8 @@ namespace WebApp.Models
             exactString,
             approximateString,
             daterange,
-            exactDate
+            exactDate,
+            exist
         }
 
         public string filterName { get; }
@@ -83,6 +84,12 @@ namespace WebApp.Models
                     "Date (exact)",
                     Filter.FilterEntity.done,
                     Filter.FilterType.exactDate));
+            
+            filters.Add(
+                new Filter(
+                    "Done",
+                    Filter.FilterEntity.done,
+                    Filter.FilterType.exist));
         }
     }
 }
