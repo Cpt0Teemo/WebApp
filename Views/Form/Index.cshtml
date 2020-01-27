@@ -24,14 +24,14 @@
                      {
                         <div class="row">
                             <div class="form-check col-sm-6">
-                                <input class="form-check-input d-inline-block" type="checkbox" id="@oysterType-type" value="@oysterType">
+                                <input class="form-check-input d-inline-block" type="checkbox" id="@oysterType-type" value="@oysterType"> <!--TODO Hide quantity until checkbox checked-->
                                 <label class="form-check-label" for="@oysterType-type">
                                     @OysterType.GetOysterTypeString(oysterType)
                                 </label>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form">
-                                    <input type="number" class="form-control d-inline-block" id="@oysterType-quantity" placeholder="Quantity">
+                                    <input type="number" min="0" class="form-control d-inline-block" id="@oysterType-quantity" placeholder="Quantity">
                                 </div>
                             </div>
                         </div>
@@ -41,8 +41,11 @@
         </fieldset>
         <div class="form-group row">
             <label for="expectedDate" class="col-sm-2 col-form-label">expectedDate</label>
-            <div class="col-sm-10">
-                <input type="date" class="form-control" id="expectedDate" placeholder="When?" required>
+            <div class="col-sm-5">
+                <input type="date" class="form-control" id="expectedDate" placeholder="Date?" required/> 
+            </div>
+            <div class="col-sm-5">
+                <input type="time" class="form-control" id="expectedTime" placeholder="Time?" required/> 
             </div>
         </div>
         <div class="form-group row">
@@ -60,7 +63,7 @@
 
 <script type="text/javascript">
     function createPostRequest() {
-        if (!checkRequired())
+        if (!validateOrder())
             return;
 
         let order = createOrderObject();
@@ -90,7 +93,7 @@
         @foreach (var oysterType in OysterType.GetOysterTypes())
          {
             <text>
-            if (document.getElementById("@oysterType-type").checked)
+            if (document.getElementById("@oysterType-type").checked && $("#@oysterType-quantity").val())
             {
                 let subOrder = {
                     "quantity": $("#@oysterType-quantity").val(),
@@ -100,28 +103,30 @@
             }
             </text>
          }
+        
+        let orderDate = new Date($("#expectedDate").val() + ' ' + $("#expectedTime").val());
 
         let order = {
                 "name": $("#name").val(),
                 "email": $("#email").val(),
-                "expectedDate": $("#expectedDate").val(),
+                "expectedDate": orderDate,
                 "subOrders": subOrders,
                 "comment": $("#comment").val()
         }
         return order;
-        }
+    }
 
-    function checkRequired() {
+    function validateOrder() {
         let allFilled = true;
-        if (!$("#name").val()) {
-            allFilled = false;
-        }
-        if (!$("#email").val()) {
-            allFilled = false;
-        }
-        if (!$("#expectedDate").val()) {
-            allFilled = false;
-        }
+        let requiredDivs = ["#name","#email","#expectedDate","#expectedTime"];
+        
+        requiredDivs.forEach(function (element) {
+            if (!$(element).val()) {
+                allFilled = false;
+                console.log("check");
+            }
+        });
+
         return allFilled;
     }
 </script>
