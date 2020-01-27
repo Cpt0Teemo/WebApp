@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Models;
 
@@ -15,14 +14,13 @@ namespace WebApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
 
             modelBuilder.Entity("WebApp.Models.Order", b =>
                 {
-                    b.Property<Guid>("orderId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<byte[]>("orderId")
+                        .ValueGeneratedOnAdd()
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
 
                     b.Property<string>("comment");
 
@@ -60,10 +58,13 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.SubOrder", b =>
                 {
-                    b.Property<Guid>("subOrderId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<byte[]>("subOrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
 
-                    b.Property<Guid?>("orderId");
+                    b.Property<byte[]>("orderId")
+                        .IsRequired()
+                        .HasConversion(new ValueConverter<byte[], byte[]>(v => default(byte[]), v => default(byte[]), new ConverterMappingHints(size: 16)));
 
                     b.Property<int>("oysterType");
 
@@ -78,9 +79,10 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.SubOrder", b =>
                 {
-                    b.HasOne("WebApp.Models.Order")
+                    b.HasOne("WebApp.Models.Order", "order")
                         .WithMany("subOrders")
-                        .HasForeignKey("orderId");
+                        .HasForeignKey("orderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
