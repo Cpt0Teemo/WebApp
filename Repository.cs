@@ -22,6 +22,11 @@ namespace WebApp
             _context.SaveChanges();
         }
 
+        public Order getOrder(Guid orderId)
+        {
+            return _context.Orders.Include(x => x.subOrders).FirstOrDefault(x => x.orderId == orderId);
+        }
+
         public List<Order> getOrders(int take, int page)
         {
             return _context.Orders.Skip((page - 1) * take).Take(take).ToList();

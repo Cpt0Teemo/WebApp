@@ -1,4 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Order Confirmation";
 }
+@model Order
 <h1>Confirmation</h1>
+Name: @Model.name <br/>
+Email: @Model.email <br/>
+@foreach (var subOrder in Model.subOrders)
+{
+    <div>
+        @OysterType.GetOysterTypeString(subOrder.oysterType) <br/>
+        @subOrder.quantity <br/>       
+    </div>
+}
+Created on: @Model.createdOn <br/>
+Order date: @Model.expectedDate <br/>

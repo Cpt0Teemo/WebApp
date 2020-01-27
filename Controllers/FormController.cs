@@ -9,13 +9,11 @@ namespace WebApp.Controllers
 {
     public class FormController : Controller
     {
-        private OysterContext _context;
         private Repository _repository;
 
         public FormController(OysterContext context)
         {
-            _context = context;
-            _repository = new Repository(_context);
+            _repository = new Repository(context);
         }
         public IActionResult Index()
         {
@@ -52,7 +50,7 @@ namespace WebApp.Controllers
         [Route("Form/{id}")]
         public IActionResult GetOrder(Guid id)
         {
-            return View("Confirmation");
+            return View("Confirmation",_repository.getOrder(id));
         }
 
     }
