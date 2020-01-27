@@ -140,44 +140,5 @@
 
     }
 
-    function createOrderObject() {
-        let subOrders = [];
-        @foreach (var oysterType in OysterType.GetOysterTypes())
-         {
-            <text>
-            if (document.getElementById("@oysterType-type").checked)
-            {
-                let subOrder = {
-                    "quantity": $("#@oysterType-quantity").val(),
-                    "oysterType": "@oysterType"
-                };
-                subOrders.push(subOrder);
-            }
-            </text>
-         }
-
-        let order = {
-                "name": $("#name").val(),
-                "email": $("#email").val(),
-                "expectedDate": $("#expectedDate").val(),
-                "subOrders": subOrders,
-                "comment": $("#comment").val()
-        }
-        return order;
-        }
-
-    function checkRequired() {
-        let allFilled = true;
-        if (!$("#name").val()) {
-            allFilled = false;
-        }
-        if (!$("#email").val()) {
-            allFilled = false;
-        }
-        if (!$("#expectedDate").val()) {
-            allFilled = false;
-        }
-        return allFilled;
-    }
 </script>
 
