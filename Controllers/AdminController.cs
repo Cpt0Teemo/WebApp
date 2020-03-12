@@ -9,31 +9,29 @@ namespace WebApp.Controllers
 {
     public class AdminController : Controller
     {
-        private OysterContext _context;
-        private Repository _repository;
-        public AdminController(OysterContext context)
+        private readonly IRepository _repository;
+        public AdminController(IRepository repository)
         {
-            _context = context;
-            _repository = new Repository(_context);
+            _repository = repository;
         }
         
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var orders = _repository.getOrders(new List<Filter>(), 10, 1);
+            var orders = await _repository.GetOrders(new List<Filter>(), 1, 10);
             return View("Table", orders);
         }
         
         [HttpGet]
-        public IActionResult getOrderTable(int take, int page)
+        public async Task<IActionResult> getOrderTable(int page, int take)
         {
-            var orders = _repository.getOrders(new List<Filter>(), 20, 1);
+            var orders = await _repository.GetOrders(new List<Filter>(), page, take);
             return PartialView("Table", orders);
         }
         
         [HttpGet]
-        public IActionResult getFilteredOrderTable(List<Filter> filters, int take, int page)
+        public async Task<IActionResult> getFilteredOrderTable(List<Filter> filters, int take, int page)
         {
-            var orders = _repository.getOrders(filters ,take, page);
+            var orders = await _repository.GetOrders(filters ,take, page);
             return PartialView("Table", orders);
         }
 

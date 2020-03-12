@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace WebApp.Models
 {
-    public class OrderTableReponse
+    public class OrderTableResponse
     {
         public List<Order> orders { get; set; }
         

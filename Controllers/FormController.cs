@@ -9,11 +9,11 @@ namespace WebApp.Controllers
 {
     public class FormController : Controller
     {
-        private Repository _repository;
+        private readonly IRepository _repository;
 
-        public FormController(OysterContext context)
+        public FormController(IRepository repository)
         {
-            _repository = new Repository(context);
+            _repository = repository;
         }
         public IActionResult Index()
         {
@@ -28,7 +28,7 @@ namespace WebApp.Controllers
             try
             {
                 order.setupOrder();
-                _repository.addOrder(order);
+                _repository.AddOrder(order);
             } catch (Exception e)
             {
                 response.success = false;
@@ -48,9 +48,9 @@ namespace WebApp.Controllers
         }
 
         [Route("Form/{id}")]
-        public IActionResult GetOrder(Guid id)
+        public async Task<IActionResult> GetOrder(Guid id)
         {
-            return View("Confirmation",_repository.getOrder(id));
+            return View("Confirmation",await _repository.GetOrder(id));
         }
 
     }

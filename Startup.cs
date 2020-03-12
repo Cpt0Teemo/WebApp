@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WebApp.Models;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.EntityFrameworkCore;
+using WebApp.Validators;
 
 namespace WebApp
 {
@@ -37,8 +38,12 @@ namespace WebApp
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            // Add DI for context
             services.AddDbContext<OysterContext>
                 (options => options.UseMySQL(Configuration.GetConnectionString("OysterDatabase")));
+            
+            // Add DI for interfaces
+            AddDependencyInjection(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +70,12 @@ namespace WebApp
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private void AddDependencyInjection(IServiceCollection services)
+        {
+            services.AddTransient<IValidator<Order>, OrderValidator>();
+            services.AddTransient<IRepository, Repository>();
         }
     }
 }
