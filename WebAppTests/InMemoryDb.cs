@@ -3,21 +3,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Models;
+using WebApp.Validators;
 
 namespace WebApp.Tests
 {
     public static class InMemoryDb
     {
-        private async Task AddOrderToInMemoryDatabase(DbContextOptions<OysterContext> option, Order order)
+        public static async Task AddOrderToInMemoryDatabase(DbContextOptions<OysterContext> option, IValidator<Order> validator, Order order)
         {
             using (var context = new OysterContext(option))
             {
-                var repository = new Repository(context, _mockValidator.Object);
+                var repository = new Repository(context, validator);
                 await repository.AddOrder(order);
             }
         }
 
-        private T GetEntityFromInMemoryDatabase<T>(DbContextOptions<OysterContext> option, Func<T, bool> predicate)
+        public static T GetEntityFromInMemoryDatabase<T>(DbContextOptions<OysterContext> option, Func<T, bool> predicate)
             where T : class
         {
             using (var context = new OysterContext(option))

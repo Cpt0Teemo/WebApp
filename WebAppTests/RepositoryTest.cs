@@ -30,9 +30,9 @@ namespace WebApp.Tests
                 .Setup(x => x.Validate(It.IsAny<Order>()))
                 .ReturnsAsync(true);
 
-            await AddOrderToInMemoryDatabase(option, order);
+            await InMemoryDb.AddOrderToInMemoryDatabase(option, _mockValidator.Object, order);
             
-            var result = GetEntityFromInMemoryDatabase<Order>(option,  x => x.orderId == order.orderId);
+            var result = InMemoryDb.GetEntityFromInMemoryDatabase<Order>(option,  x => x.orderId == order.orderId);
 
             CompareOrders(order, result);
         }
