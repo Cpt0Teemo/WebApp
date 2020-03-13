@@ -23,16 +23,16 @@ namespace WebApp
 
         public async Task AddOrder(Order order)
         {
-            if (await _orderValidator.Validate(order))
+            if (!await _orderValidator.Validate(order))
                 throw new InvalidOrderException("Missing suborders from order");
-            await _context.AddAsync(order);
+            
+            _context.Add(order);
             await _context.SaveChangesAsync();
         }
 
         public async Task<Order> GetOrder(Guid orderId)
         {
-            return await _context.Orders
-                .Include(x => x.subOrders)
+            return await Orders
                 .FirstOrDefaultAsync(x => x.orderId == orderId);
         }
 

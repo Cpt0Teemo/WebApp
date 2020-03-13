@@ -16,7 +16,7 @@ namespace WebApp.Models
         [Required(AllowEmptyStrings = false)]
         public string email { get; set; }
 
-        public List<SubOrder> subOrders { get; set; }
+        public List<SubOrder> subOrders { get; set; } = new List<SubOrder>();
 
         public DateTime createdOn { get; private set; }
 
@@ -29,7 +29,7 @@ namespace WebApp.Models
         [Timestamp]
         public byte[] timestamp { get; set; }
 
-        public void setupOrder()
+        public void SetupOrder()
         {
             setNewOrderId();
             setNewCreatedOn();

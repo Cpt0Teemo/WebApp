@@ -27,7 +27,7 @@ namespace WebApp.Controllers
 
             try
             {
-                order.setupOrder();
+                order.SetupOrder();
                 _repository.AddOrder(order);
             } catch (Exception e)
             {
