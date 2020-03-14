@@ -38,6 +38,7 @@ namespace WebApp
 
 
             services.AddRazorPages();
+            services.AddControllersWithViews();
 
             // Add DI for context
             services.AddDbContext<OysterContext>
