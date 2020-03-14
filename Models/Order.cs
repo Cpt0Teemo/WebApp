@@ -31,31 +31,30 @@ namespace WebApp.Models
 
         public void SetupOrder()
         {
-            setNewOrderId();
-            setNewCreatedOn();
-            setOrderForSubOrder();
-            setSubOrderId();
-            setOrderForSubOrder();
+            SetNewOrderId();
+            SetNewCreatedOn();
+            SetSubOrderId();
+            SetOrderForSubOrder();
         }
 
-        private void setNewOrderId()
+        private void SetNewOrderId()
         {
             if (orderId == null || orderId == Guid.Empty)
                 orderId = Guid.NewGuid();
         }
 
-        private void setNewCreatedOn()
+        private void SetNewCreatedOn()
         {
             if (createdOn == null || createdOn == DateTime.MinValue)
                 createdOn = DateTime.Now;
         }
 
-        private void setSubOrderId()
+        private void SetSubOrderId()
         {
-            subOrders.ForEach(x => x.setNewSubOrderId());
+            subOrders.ForEach(x => x.SetNewSubOrderId());
         }
 
-        private void setOrderForSubOrder()
+        private void SetOrderForSubOrder()
         {
             subOrders.ForEach(x => x.order = this);
         }

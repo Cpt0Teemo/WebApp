@@ -17,7 +17,7 @@ namespace WebApp.Models
 
         public OysterType.OysterTypes oysterType { get; set; }
 
-        public void setNewSubOrderId()
+        public void SetNewSubOrderId()
         {
             if (subOrderId == null || subOrderId == Guid.Empty)
                 subOrderId = Guid.NewGuid();
