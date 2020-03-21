@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Models;
 using WebApp.Validators;
+using WebApp.Filters;
 
 namespace WebApp
 {
@@ -38,21 +39,29 @@ namespace WebApp
 
         public async Task<List<Order>> GetOrders()
         {
-            return await Orders.ToListAsync();
+            return await Orders
+                .OrderByDescending(x => x.expectedDate)
+                .ToListAsync();
         }
-        public async Task<List<Order>> GetOrders(int take, int page)
+        
+        public async Task<List<Order>> GetOrders(int page, int take)
         {
             return await Orders
+                .OrderByDescending(x => x.expectedDate)
                 .Skip((page - 1) * take)
                 .Take(take)
                 .ToListAsync();
         }
 
-        public async Task<OrderTableResponse> GetOrders(List<Filter> filters, int page, int take)
+        public async Task<OrderTableResponse> GetOrders(List<IFilter> filters, int page, int take)
         {
             var query = AddFiltersToQuery(Orders, filters);
 
-            var ordersAsync = query.Skip((page - 1) * take).Take(take).ToListAsync();
+            var ordersAsync = query
+                .OrderByDescending(x => x.expectedDate)
+                .Skip((page - 1) * take)
+                .Take(take)
+                .ToListAsync();
             var countAsync = query.CountAsync();
 
             var orderTable = new OrderTableResponse
@@ -65,34 +74,11 @@ namespace WebApp
             return orderTable;
         }
 
-        private IQueryable<Order> AddFiltersToQuery(IQueryable<Order> query, List<Filter> filters)
+        private IQueryable<Order> AddFiltersToQuery(IQueryable<Order> query, List<IFilter> filters)
         {
             foreach (var filter in filters)
             {
-                switch (filter.filterEntity)
-                {
-                    case Filter.FilterEntity.orderId:
-                        query.Where(x => x.orderId.ToString() == filter.value);
-                        break;
-                    case Filter.FilterEntity.email:
-                        query.Where(x => x.email == filter.value);
-                        break;
-                    case Filter.FilterEntity.name:
-                        query.Where(x => x.name == filter.value);
-                        break;
-                    case Filter.FilterEntity.createdOn:
-                        query.Where(x => x.createdOn == DateTime.Parse(filter.value));
-                        break;
-                    case Filter.FilterEntity.excpectedDate:
-                        query.Where(x => x.expectedDate == DateTime.Parse(filter.value));
-                        break;
-                    case Filter.FilterEntity.comment:
-                        query.Where(x => x.comment == filter.value);
-                        break;
-                    case Filter.FilterEntity.done:
-                        query.Where(x => x.done == DateTime.Parse(filter.value));
-                        break;
-                }
+                query = filter.ApplyFilter(query);
             }
 
             return query;
