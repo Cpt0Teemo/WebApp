@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using WebApp.Filters;
 using WebApp.Models;
 using WebApp.Validators;
 
@@ -40,14 +41,14 @@ namespace WebApp.Tests
             return await repository.GetOrders();
         }
 
-        public async Task<List<Order>> GetOrders(int take, int page)
+        public async Task<OrderTableResponse> GetOrders(int page, int take)
         {
             using var context = new OysterContext(_option);
             var repository = new Repository(context, _validator);
-            return await repository.GetOrders(take, page); 
+            return await repository.GetOrders(page, take); 
         }
 
-        public async Task<OrderTableResponse> GetOrders(List<Filter> filters, int page, int take)
+        public async Task<OrderTableResponse> GetOrders(List<IFilter> filters, int page, int take)
         {
             using var context = new OysterContext(_option);
             var repository = new Repository(context, _validator);

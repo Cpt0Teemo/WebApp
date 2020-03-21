@@ -44,13 +44,9 @@ namespace WebApp
                 .ToListAsync();
         }
         
-        public async Task<List<Order>> GetOrders(int page, int take)
+        public async Task<OrderTableResponse> GetOrders(int page, int take)
         {
-            return await Orders
-                .OrderByDescending(x => x.expectedDate)
-                .Skip((page - 1) * take)
-                .Take(take)
-                .ToListAsync();
+            return await GetOrders(new List<IFilter>(), page, take);
         }
 
         public async Task<OrderTableResponse> GetOrders(List<IFilter> filters, int page, int take)

@@ -11,7 +11,7 @@ namespace WebApp
         Task AddOrder(Order order);
         Task<Order> GetOrder(Guid orderId);
         Task<List<Order>> GetOrders();
-        Task<List<Order>> GetOrders(int take, int page);
+        Task<OrderTableResponse> GetOrders(int take, int page);
         Task<OrderTableResponse> GetOrders(List<IFilter> filters, int page, int take);
     }
 }
