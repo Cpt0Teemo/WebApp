@@ -15,20 +15,21 @@ namespace WebApp.Controllers
         {
             _repository = repository;
         }
+        
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult AddOrder([FromBody] Order order)
+        public async Task<IActionResult> AddOrder([FromBody] Order order)
         {
             var response = new JsonResponse();
 
             try
             {
                 order.SetupOrder();
-                _repository.AddOrder(order);
+                await _repository.AddOrder(order);
             } catch (Exception e)
             {
                 response.success = false;
@@ -43,7 +44,7 @@ namespace WebApp.Controllers
             return Json(new JsonResponse
             {
                 success = true,
-                orderId = order.orderId
+                response = order.orderId
             });
         }
 
