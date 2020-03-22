@@ -55,7 +55,7 @@
         @Html.AntiForgeryToken()
         <div class="form-group row">
             <div class="col-sm-10">
-                <button type="button" onClick="createPostRequest()" class="btn btn-primary">Sign in</button>
+                <button type="button" onClick="createPostRequest()" class="btn btn-primary">Submit</button>
             </div>
         </div>
 
@@ -123,10 +123,30 @@
         requiredDivs.forEach(function (element) {
             if (!$(element).val()) {
                 allFilled = false;
-                console.log("check");
+                makeInputInvalid(element);
+            } else {
+                makeInputValid(element);
             }
         });
 
         return allFilled;
+    }
+    
+    function makeInputValid(element) {
+        let input = $(element);
+        if(input.hasClass("is-valid"))
+            return;
+        if(input.hasClass("is-invalid"))
+            input.removeClass("is-invalid");
+        input.addClass("is-valid");
+    }
+    
+    function makeInputInvalid(element) {
+        let input = $(element);
+        if(input.hasClass("is-invalid"))
+            return;
+        if(input.hasClass("is-valid"))
+            input.removeClass("is-valid");
+        input.addClass("is-invalid");
     }
 </script>

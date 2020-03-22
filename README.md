@@ -1,5 +1,7 @@
 # WebApp
 
+This is a simple oyster shop where you can place orders and the admin can view these orders and apply filters to them to find exactly what they are looking for/
+
 Features:
     - MVC architecture with very little dependencies between layers
     - DOTNET EF used as ORM
@@ -14,3 +16,4 @@ Features:
 TODO:
     - Finish UI Admin page (pagination, filters, popup modal)
     - Add login for admins
+    - Better looking order confirmation view
