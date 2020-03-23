@@ -24,16 +24,12 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrder([FromBody] Order order)
         {
-            var response = new JsonResponse();
-
             try
             {
                 order.SetupOrder();
                 await _repository.AddOrder(order);
             } catch (Exception e)
             {
-                response.success = false;
-                response.message = e.Message;
                 return Json(new JsonResponse {
                     success = false,
                     message = e.Message

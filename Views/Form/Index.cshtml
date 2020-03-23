@@ -81,7 +81,7 @@
             if (result.success) {
                 window.location.href = "Form/" + result.response;
             } else {
-
+                alert("The request failed with this error:\n" + result.message);
             }
         });
 
@@ -96,7 +96,7 @@
             if (document.getElementById("@oysterType-type").checked && $("#@oysterType-quantity").val())
             {
                 let subOrder = {
-                    "quantity": $("#@oysterType-quantity").val(),
+                    "quantity": parseInt($("#@oysterType-quantity").val()),
                     "oysterType": "@oysterType"
                 };
                 subOrders.push(subOrder);
